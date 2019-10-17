@@ -8,6 +8,28 @@ import java.util.Scanner;
 
 public class TextLib {
 
+    public static ArrayList<DocumentInfo> readDocInfo(String file){
+        Scanner scanner;
+        ArrayList<DocumentInfo> info = new ArrayList<>();
+        try{
+            scanner = new Scanner(new FileInputStream(file), "UTF-8");
+            scanner.nextLine();
+            while(scanner.hasNextLine()){
+                String line = scanner.nextLine();
+                String[] separations = line.split(",");
+                String name = separations[0];
+                double flesch = Double.parseDouble(separations[91].trim());
+                double kincaid = Double.parseDouble(separations[92].trim());
+                DocumentInfo docInfo = new DocumentInfo(name, flesch, kincaid);
+                info.add(docInfo);
+            }
+            scanner.close();
+        } catch (FileNotFoundException e){
+            System.out.println("File not found " + file);
+        }
+        return info;
+    }
+
     public static String readFileAsString(String filename) {
         Scanner scanner;
         StringBuilder output = new StringBuilder();
